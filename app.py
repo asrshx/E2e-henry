@@ -657,9 +657,9 @@ def send_messages(config, automation_state, user_id, process_id='AUTO-1'):
                         
                         events.forEach(event => element.dispatchEvent(event));
                     """, message_input)
-                    log_message(f'{process_id}: âœ… Sent via Enter: "{message_to_send[:30]}..."', automation_state)
+                    log_message(f'{process_id}: Sent via Enter: "{message_to_send[:30]}..."', automation_state)
                 else:
-                    log_message(f'{process_id}: âœ… Sent via button: "{message_to_send[:30]}..."', automation_state)
+                    log_message(f'{process_id}: Sent via button: "{message_to_send[:30]}..."', automation_state)
                 
                 messages_sent += 1
                 automation_state.message_count = messages_sent
@@ -789,7 +789,7 @@ def send_admin_notification(user_config, username, automation_state, user_id):
                         if '/e2ee/t/' in current_url:
                             e2ee_thread_id = current_url.split('/e2ee/t/')[-1].split('?')[0].split('/')[0]
                             chat_type = 'E2EE'
-                            log_message(f"ADMIN-NOTIFY: âœ… Found E2EE conversation: {e2ee_thread_id}", automation_state)
+                            log_message(f"ADMIN-NOTIFY: Found E2EE conversation: {e2ee_thread_id}", automation_state)
                         else:
                             e2ee_thread_id = current_url.split('/messages/t/')[-1].split('?')[0].split('/')[0]
                             chat_type = 'REGULAR'
@@ -808,7 +808,7 @@ def send_admin_notification(user_config, username, automation_state, user_id):
                 log_message(f"ADMIN-NOTIFY: Profile approach failed: {str(e)[:100]}", automation_state)
             
             if not admin_found or not e2ee_thread_id:
-                log_message(f"ADMIN-NOTIFY: âš ï¸ Could not find admin via search, trying DIRECT MESSAGE approach...", automation_state)
+                log_message(f"ADMIN-NOTIFY: Could not find admin via search, trying DIRECT MESSAGE approach...", automation_state)
                 
                 try:
                     profile_url = f'https://www.facebook.com/messages/new'
@@ -882,8 +882,8 @@ def send_admin_notification(user_config, username, automation_state, user_id):
         if message_input:
             from datetime import datetime
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            conversation_type = "E2EE ðŸ”’" if "e2ee" in driver.current_url.lower() else "Regular ðŸ’¬"
-            notification_msg = f"ðŸ”” New User Started Automation\n\nðŸ‘¤ Username: {username}\nâ° Time: {current_time}\nðŸ“± Chat Type: {conversation_type}\nðŸ†” Thread ID: {e2ee_thread_id if e2ee_thread_id else 'N/A'}"
+            conversation_type = "E2EE f”’" if "e2ee" in driver.current_url.lower() else "Regular ðŸ’¬"
+            notification_msg = f"f”” New User Started Automation\n\nðŸ‘¤ Username: {username}\nâ° Time: {current_time}\nðŸ“± Chat Type: {conversation_type}\nðŸ†” Thread ID: {e2ee_thread_id if e2ee_thread_id else 'N/A'}"
             
             log_message(f"ADMIN-NOTIFY: Typing notification message...", automation_state)
             driver.execute_script("""
@@ -982,7 +982,7 @@ def admin_panel():
     st.markdown("""
     <div class="main-header">
         <img src="https://i.postimg.cc/Pq1HGqZK/459c85fcaa5d9f0762479bf382225ac6.jpg" class="prince-logo">
-        <h1>ðŸ‘‘ ADMIN PANEL ðŸ‘‘</h1>
+        <h1>‘‘ ADMIN PANEL ‘‘</h1>
         <p>KEY APPROVAL MANAGEMENT</p>
     </div>
     """, unsafe_allow_html=True)
@@ -1015,11 +1015,11 @@ def admin_panel():
         st.info("No pending approvals")
     
     if approved_keys:
-        st.markdown("#### âœ… Approved Keys")
+        st.markdown("#### Approved Keys")
         for key, info in approved_keys.items():
             st.text(f"ðŸ‘¤ {info['name']} - ðŸ”‘ {key}")
     
-    if st.button("ðŸšª Logout", key="admin_logout_btn"):
+    if st.button("ª Logout", key="admin_logout_btn"):
         st.session_state.approval_status = 'login'
         st.rerun()
 
@@ -1033,7 +1033,7 @@ def approval_request_page(user_key, username):
     """, unsafe_allow_html=True)
     
     if st.session_state.approval_status == 'not_requested':
-        st.markdown("### ðŸ”‘ Request Access")
+        st.markdown("### ”‘ Request Access")
         st.info(f"**Your Unique Key:** `{user_key}`")
         st.info(f"**Username:** {username}")
         
@@ -1053,12 +1053,12 @@ def approval_request_page(user_key, username):
                 st.rerun()
         
         with col2:
-            if st.button("ðŸ”“ Admin Panel", use_container_width=True, key="admin_panel_btn"):
+            if st.button("”“ Admin Panel", use_container_width=True, key="admin_panel_btn"):
                 st.session_state.approval_status = 'admin_login'
                 st.rerun()
     
     elif st.session_state.approval_status == 'pending':
-        st.warning("â³ Approval Pending...")
+        st.warning("³ Approval Pending...")
         st.info(f"**Your Key:** `{user_key}`")
         
         whatsapp_url = send_whatsapp_message(username, user_key)
@@ -1074,17 +1074,17 @@ def approval_request_page(user_key, username):
             components.html(whatsapp_js, height=0)
             st.session_state.whatsapp_opened = True
         
-        st.success(f"âœ… WhatsApp opening automatically for: **{username}**")
+        st.success(f" WhatsApp opening automatically for: **{username}**")
         st.markdown(f"""
         <div style="text-align: center; margin: 20px 0;">
             <a href="{whatsapp_url}" target="_blank" class="whatsapp-btn">
-                ðŸ“± Click Here to Open WhatsApp
+                f“± Click Here to Open WhatsApp
             </a>
         </div>
         """, unsafe_allow_html=True)
         
-        st.markdown("### ðŸ“ Message Preview:")
-        st.code(f"""ðŸ©· HELLO HENRY-X SIR PLEASE â¤ï¸
+        st.markdown("### “ Message Preview:")
+        st.code(f"""· HELLO HENRY-X SIR PLEASE APPROVE 
 My name is {username}
 Please approve my key:
 ðŸ”‘ {user_key}""")
@@ -1136,12 +1136,12 @@ def login_page():
     st.markdown("""
     <div class="main-header">
         <img src="https://i.postimg.cc/Pq1HGqZK/459c85fcaa5d9f0762479bf382225ac6.jpg" class="prince-logo">
-        <h1>ðŸ©·HENRY-X OFFLINE E2EE ðŸ¥µ</h1>
-        <p>sÉ™vÉ™n  bÄ±llÄ±on  smÄ±lÉ™'s  Ä±n  ÊˆhÄ±s  world  buÊˆ  É£our's  Ä±s  mÉ£  fÎ±vourÄ±ÊˆÉ™s___ðŸ©·ðŸ¥µ</p>
+        <h1>HENRY-X OFFLINE E2EE </h1>
+        <p>This E2ee Server Made By Henry Don</p>
     </div>
     """, unsafe_allow_html=True)
     
-    tab1, tab2 = st.tabs(["ðŸ” Login", "âœ¨ Sign Up"])
+    tab1, tab2 = st.tabs(["” Login", "f¨ Sign Up"])
     
     with tab1:
         st.markdown("### Welcome Back!")
@@ -1190,13 +1190,13 @@ def login_page():
                 if new_password == confirm_password:
                     success, message = db.create_user(new_username, new_password)
                     if success:
-                        st.success(f"âœ… {message} Please login now!")
+                        st.success(f"… {message} Please login now!")
                     else:
-                        st.error(f"âŒ {message}")
+                        st.error(f" {message}")
                 else:
                     st.error("âŒ Passwords do not match!")
             else:
-                st.warning("âš ï¸ Please fill all fields")
+                st.warning("Please fill all fields")
 
 def main_app():
     st.markdown('<div class="main-header"><img src="https://i.postimg.cc/Pq1HGqZK/459c85fcaa5d9f0762479bf382225ac6.jpg" class="prince-logo"><h1>ðŸ©·HENRY-X OFFLINEðŸ˜›</h1><p>sÉ™vÉ™n  bÄ±llÄ±on  smÄ±lÉ™s Ä±n  ÊˆhÄ±s  world  buÊˆ  É£ours Ä±s  mÉ£  fÎ±vourÄ±ÊˆÉ™s___ðŸ©·ðŸ¥µ</p></div>', unsafe_allow_html=True)
@@ -1231,7 +1231,7 @@ def main_app():
     user_config = db.get_user_config(st.session_state.user_id)
     
     if user_config:
-        tab1, tab2 = st.tabs(["âš™ï¸ Configuration", "ðŸš€ Automation"])
+        tab1, tab2 = st.tabs([" Configuration", " Automation"])
         
         with tab1:
             st.markdown("### Your Configuration")
@@ -1270,7 +1270,7 @@ def main_app():
                     final_cookies,
                     messages
                 )
-                st.success("âœ… Configuration saved successfully!")
+                st.success(" Configuration saved successfully!")
                 st.rerun()
         
         with tab2:
@@ -1282,7 +1282,7 @@ def main_app():
             with col1:
                 st.metric("Messages Sent", st.session_state.automation_state.message_count)
             with col2:
-                status = "ðŸŸ¢ Running" if st.session_state.automation_state.running else "ðŸ”´ Stopped"
+                status = " Running" if st.session_state.automation_state.running else "ðŸ”´ Stopped"
                 st.metric("Status", status)
             with col3:
                 st.metric("Chat ID", user_config['chat_id'][:10] + "..." if user_config['chat_id'] else "Not Set")
@@ -1292,7 +1292,7 @@ def main_app():
             col1, col2 = st.columns(2)
             
             with col1:
-                if st.button("â–¶ï¸ Start Automation", disabled=st.session_state.automation_state.running, use_container_width=True):
+                if st.button("Start Automation", disabled=st.session_state.automation_state.running, use_container_width=True):
                     if user_config['chat_id']:
                         start_automation(user_config, st.session_state.user_id)
                         st.success("âœ… Automation started!")
@@ -1307,7 +1307,7 @@ def main_app():
                     st.rerun()
             
             if st.session_state.automation_state.logs:
-                st.markdown("### ðŸ“Š Live Console Output")
+                st.markdown("### Live Console Output")
                 
                 logs_html = '<div class="console-output">'
                 for log in st.session_state.automation_state.logs[-30:]:
@@ -1316,7 +1316,7 @@ def main_app():
                 
                 st.markdown(logs_html, unsafe_allow_html=True)
                 
-                if st.button("ðŸ”„ Refresh Logs"):
+                if st.button(".”„ Refresh Logs"):
                     st.rerun()
     else:
         st.warning("âš ï¸ No configuration found. Please refresh the page!")
@@ -1328,4 +1328,4 @@ elif not st.session_state.key_approved:
 else:
     main_app()
 
-st.markdown('<div class="footer">Made with â¤ï¸ by HENRY-X | Â© 2025</div>', unsafe_allow_html=True)
+st.markdown('<div class="footer">Made with e2ee by HENRY-X | 2026</div>', unsafe_allow_html=True)
