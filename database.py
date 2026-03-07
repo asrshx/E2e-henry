@@ -15,16 +15,15 @@ def load_db():
 
 def save_db(data):
     with open(DB_FILE, "w") as f:
-        json.dump(data, f, indent=4)
+        json.dump(data, f)
 
-
-# ---------------- USER FUNCTIONS ----------------
 
 def create_user(username, password):
 
     data = load_db()
 
-    for user_id, user in data["users"].items():
+    # check duplicate username
+    for user in data["users"].values():
         if user["username"] == username:
             return False, "Username already exists"
 
@@ -34,9 +33,7 @@ def create_user(username, password):
         "username": username,
         "password": password,
         "automation_running": False,
-        "config": {
-            "chat_id": ""
-        }
+        "config": {}
     }
 
     save_db(data)
@@ -49,13 +46,12 @@ def verify_user(username, password):
     data = load_db()
 
     for user_id, user in data["users"].items():
-        if user["username"] == username and user["password"] == password:
+
+        if user["username"].strip() == username.strip() and user["password"] == password:
             return user_id
 
     return None
 
-
-# ---------------- AUTOMATION ----------------
 
 def get_automation_running(user_id):
 
@@ -67,17 +63,6 @@ def get_automation_running(user_id):
     return False
 
 
-def set_automation_running(user_id, status):
-
-    data = load_db()
-
-    if user_id in data["users"]:
-        data["users"][user_id]["automation_running"] = status
-        save_db(data)
-
-
-# ---------------- CONFIG ----------------
-
 def get_user_config(user_id):
 
     data = load_db()
@@ -85,13 +70,4 @@ def get_user_config(user_id):
     if user_id in data["users"]:
         return data["users"][user_id].get("config", {})
 
-    return None
-
-
-def save_user_config(user_id, config):
-
-    data = load_db()
-
-    if user_id in data["users"]:
-        data["users"][user_id]["config"] = config
-        save_db(data)
+    return {}
