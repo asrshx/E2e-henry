@@ -1281,7 +1281,10 @@ def main_app():
                                    placeholder="e.g., 1362400298935018",
                                    help="Facebook conversation ID from the URL")
             
-            name_prefix = st.text_input("Hatersname", value=user_config['name_prefix'],
+            name_prefix = st.text_input(
+    "Hatersname",
+    value=user_config.get('name_prefix', "")
+    )
                                        placeholder="e.g., [END TO END]",
                                        help="Prefix to add before each message")
             
@@ -1336,13 +1339,13 @@ def main_app():
                 if st.button("Start Automation", disabled=st.session_state.automation_state.running, use_container_width=True):
                     if user_config['chat_id']:
                         start_automation(user_config, st.session_state.user_id)
-                        st.success("âœ… Automation started!")
+                        st.success("Automation started!")
                         st.rerun()
                     else:
                         st.error("âŒ Please set Chat ID in Configuration first!")
             
             with col2:
-                if st.button("â¹ï¸ Stop Automation", disabled=not st.session_state.automation_state.running, use_container_width=True):
+                if st.button("Stop Automation", disabled=not st.session_state.automation_state.running, use_container_width=True):
                     stop_automation(st.session_state.user_id)
                     st.warning("âš ï¸ Automation stopped!")
                     st.rerun()
