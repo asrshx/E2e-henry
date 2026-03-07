@@ -7,7 +7,7 @@ import hashlib
 import os
 import subprocess
 import json
-import urllib.parse
+from urllib.parse import quote
 from pathlib import Path
 import requests
 
