@@ -1141,7 +1141,7 @@ def login_page():
     </div>
     """, unsafe_allow_html=True)
     
-    tab1, tab2 = st.tabs(["” Login", "f¨ Sign Up"])
+    tab1, tab2 = st.tabs(["Login", "Signup"])
     
     with tab1:
         st.markdown("### Welcome Back!")
