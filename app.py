@@ -1260,7 +1260,7 @@ def main_app():
                                    height=150,
                                    help="Enter each message on a new line")
             
-            if st.button("ðŸ’¾ Save Configuration", use_container_width=True):
+            if st.button(" Save Configuration", use_container_width=True):
                 final_cookies = cookies if cookies.strip() else user_config['cookies']
                 db.update_user_config(
                     st.session_state.user_id,
