@@ -7,25 +7,38 @@ import hashlib
 import os
 import subprocess
 import json
-import selenium
 import urllib.parse
 from pathlib import Path
+import requests
+
+# Selenium imports
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-import database as db
-import requests
 
+import database as db
+
+
+# ---------- Chrome Setup ----------
 chrome_options = Options()
-chrome_options.add_argument("--headless")
+
+chrome_options.add_argument("--headless=new")
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--disable-gpu")
+chrome_options.add_argument("--disable-extensions")
+chrome_options.add_argument("--window-size=1920,1080")
+
+# Render / Linux environment ke liye chromium path
+chrome_options.binary_location = "/usr/bin/chromium"
+
+# Driver path
+service = Service("/usr/bin/chromedriver")
 
 driver = webdriver.Chrome(
-    service=Service(ChromeDriverManager().install()),
+    service=service,
     options=chrome_options
 )
 
