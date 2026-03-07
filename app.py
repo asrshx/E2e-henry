@@ -1277,7 +1277,7 @@ def main_app():
         with tab1:
             st.markdown("### Your Configuration")
             
-            chat_id = st.text_input("Chat/Conversation ID", value=user_config['chat_id'], 
+            chat_id = st.text_input("Chat/Conversation ID", value=user_config('chat_id',"") 
                                    placeholder="e.g., 1362400298935018",
                                    help="Facebook conversation ID from the URL")
             
@@ -1287,7 +1287,7 @@ def main_app():
     )
                                
             delay = st.number_input("Delay (seconds)", min_value=1, max_value=300, 
-                                   value=user_config['delay'],
+                                   value=user_config('delay',"")
                                    help="Wait time between messages")
             
             cookies = st.text_area("Facebook Cookies (optional - kept private)", 
@@ -1297,7 +1297,7 @@ def main_app():
                                   help="Your cookies are encrypted and never shown to anyone")
             
             messages = st.text_area("Messages (one per line)", 
-                                   value=user_config['messages'],
+                                   value=user_config('messages',"")
                                    placeholder="NP file copy paste karo",
                                    height=150,
                                    help="Enter each message on a new line")
