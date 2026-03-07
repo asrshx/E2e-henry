@@ -1311,18 +1311,20 @@ messages = st.text_area(
     placeholder="NP file copy paste karo",
     height=150,
     help="Enter each message on a new line"
-    )
-            if st.button("ðŸ’¾ Save Configuration", use_container_width=True):
-                final_cookies = cookies if cookies.strip() else user_config['cookies']
-                db.update_user_config(
-                    st.session_state.user_id,
-                    chat_id,
-                    name_prefix,
-                    delay,
-                    final_cookies,
-                    messages
-                )
-                st.success(" Configuration saved successfully!")
+)
+
+if st.button("💾 Save Configuration", use_container_width=True):
+
+    config = {
+        "chat_id": chat_id,
+        "name_prefix": name_prefix,
+        "delay": delay,
+        "messages": messages
+    }
+
+    db.save_user_config(user_id, config)
+
+    st.success("Configuration saved successfully!")
                 st.rerun()
         
         with tab2:
@@ -1355,7 +1357,7 @@ messages = st.text_area(
             with col2:
                 if st.button("Stop Automation", disabled=not st.session_state.automation_state.running, use_container_width=True):
                     stop_automation(st.session_state.user_id)
-                    st.warning("âš ï¸ Automation stopped!")
+                    st.warning("Automation stopped!")
                     st.rerun()
             
             if st.session_state.automation_state.logs:
