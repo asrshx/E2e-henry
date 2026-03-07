@@ -1277,7 +1277,7 @@ def main_app():
         with tab1:
             st.markdown("### Your Configuration")
             
-            chat_id = st.text_input("Chat/Conversation ID", value=user_config('chat_id', "") 
+            chat_id = st.text_input("Chat/Conversation ID", value=user_config.get('chat_id', ""))
                                    placeholder="e.g., 1362400298935018",
                                    help="Facebook conversation ID from the URL")
             
