@@ -1287,8 +1287,7 @@ def main_app():
 name_prefix = st.text_input(
     "Hatersname",
     value=user_config.get('name_prefix', "")
-)
-
+        )
 delay = st.number_input(
     "Delay (seconds)",
     min_value=1,
