@@ -1306,6 +1306,7 @@ cookies = st.text_area(
 )
 
 messages = st.text_area(
+messages = st.text_area(
     "Messages (one per line)",
     value=user_config.get('messages', ""),
     placeholder="NP file copy paste karo",
@@ -1314,7 +1315,6 @@ messages = st.text_area(
 )
 
 if st.button("💾 Save Configuration", use_container_width=True):
-
     config = {
         "chat_id": chat_id,
         "name_prefix": name_prefix,
@@ -1325,7 +1325,7 @@ if st.button("💾 Save Configuration", use_container_width=True):
     db.save_user_config(user_id, config)
 
     st.success("Configuration saved successfully!")
-                st.rerun()
+    st.rerun()
         
         with tab2:
             st.markdown("### Automation Control")
