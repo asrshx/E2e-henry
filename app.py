@@ -1127,76 +1127,117 @@ Please approve my key:
         with col2:
             if st.button("ðŸ”™ Back", use_container_width=True, key="admin_back_btn"):
                 st.session_state.approval_status = 'not_requested'
-                st.rerun()
-    
-    elif st.session_state.approval_status == 'admin_panel':
-        admin_panel()
-
 def login_page():
+
     st.markdown("""
     <div class="main-header">
         <img src="https://i.postimg.cc/Pq1HGqZK/459c85fcaa5d9f0762479bf382225ac6.jpg" class="prince-logo">
-        <h1>HENRY-X OFFLINE E2EE </h1>
+        <h1>HENRY-X OFFLINE E2EE</h1>
         <p>This E2ee Server Made By Henry Don</p>
     </div>
     """, unsafe_allow_html=True)
-    
-    tab1, tab2 = st.tabs(["Login", "Signup"])
-    
+
+    tabs = st.tabs(["Login", "Signup"])
+    tab1 = tabs[0]
+    tab2 = tabs[1]
+
+    # ---------------- LOGIN TAB ----------------
     with tab1:
+
         st.markdown("### Welcome Back!")
-        username = st.text_input("Username", key="login_username", placeholder="Enter your username")
-        password = st.text_input("Password", key="login_password", type="password", placeholder="Enter your password")
-        
+
+        username = st.text_input(
+            "Username",
+            key="login_username",
+            placeholder="Enter your username"
+        )
+
+        password = st.text_input(
+            "Password",
+            key="login_password",
+            type="password",
+            placeholder="Enter your password"
+        )
+
         if st.button("Login", key="login_btn", use_container_width=True):
-            if username and password:
-                user_id = db.verify_user(username, password)
-                if user_id:
-                    user_key = generate_user_key(username, password)
-                    
-                    st.session_state.logged_in = True
-                    st.session_state.user_id = user_id
-                    st.session_state.username = username
-                    st.session_state.user_key = user_key
-                    
-                    if check_approval(user_key):
-                        st.session_state.key_approved = True
-                        st.session_state.approval_status = 'approved'
-                        
-                        should_auto_start = db.get_automation_running(user_id)
-                        if should_auto_start:
-                            user_config = db.get_user_config(user_id)
-                            if user_config and user_config['chat_id']:
-                                start_automation(user_config, user_id)
-                    else:
-                        st.session_state.key_approved = False
-                        st.session_state.approval_status = 'not_requested'
-                    
-                    st.success(f"Welcome back, {username}!")
-                    st.rerun()
-                else:
-                    st.error(" Invalid username or password!")
+
+            if not username or not password:
+                st.warning("Please enter both username and password")
+                return
+
+            user_id = db.verify_user(username, password)
+
+            if not user_id:
+                st.error("Invalid username or password!")
+                return
+
+            user_key = generate_user_key(username, password)
+
+            st.session_state.logged_in = True
+            st.session_state.user_id = user_id
+            st.session_state.username = username
+            st.session_state.user_key = user_key
+
+            if check_approval(user_key):
+                st.session_state.key_approved = True
+                st.session_state.approval_status = "approved"
+
+                should_auto_start = db.get_automation_running(user_id)
+
+                if should_auto_start:
+                    user_config = db.get_user_config(user_id)
+
+                    if user_config and user_config.get("chat_id"):
+                        start_automation(user_config, user_id)
+
             else:
-                st.warning("âš ï¸ Please enter both username and password")
-    
+                st.session_state.key_approved = False
+                st.session_state.approval_status = "not_requested"
+
+            st.success(f"Welcome back, {username}!")
+            st.rerun()
+
+    # ---------------- SIGNUP TAB ----------------
     with tab2:
+
         st.markdown("### Create New Account")
-        new_username = st.text_input("Choose Username", key="signup_username", placeholder="Choose a unique username")
-        new_password = st.text_input("Choose Password", key="signup_password", type="password", placeholder="Create a strong password")
-        confirm_password = st.text_input("Confirm Password", key="confirm_password", type="password", placeholder="Re-enter your password")
-        
+
+        new_username = st.text_input(
+            "Choose Username",
+            key="signup_username",
+            placeholder="Choose a unique username"
+        )
+
+        new_password = st.text_input(
+            "Choose Password",
+            key="signup_password",
+            type="password",
+            placeholder="Create a strong password"
+        )
+
+        confirm_password = st.text_input(
+            "Confirm Password",
+            key="confirm_password",
+            type="password",
+            placeholder="Re-enter your password"
+        )
+
         if st.button("Create Account", key="signup_btn", use_container_width=True):
-            if new_username and new_password and confirm_password:
-                if new_password == confirm_password:
-                    success, message = db.create_user(new_username, new_password)
-                    if success:
-                        st.success(f"… {message} Please login now!")
-                    else:
-                        st.error(f" {message}")
-                else:
-                    st.error(" Passwords do not match!")
-            else:
+
+            if not new_username or not new_password or not confirm_password:
                 st.warning("Please fill all fields")
+                return
+
+            if new_password != confirm_password:
+                st.error("Passwords do not match!")
+                return
+
+            success, message = db.create_user(new_username, new_password)
+
+            if success:
+                st.success(f"{message} Please login now!")
+            else:
+                st.error(message)
 
 def main_app():
     st.markdown('<div class="main-header"><img src="https://i.postimg.cc/Pq1HGqZK/459c85fcaa5d9f0762479bf382225ac6.jpg" class="prince-logo"><h1>ðŸ©·HENRY-X OFFLINEðŸ˜›</h1><p>sÉ™vÉ™n  bÄ±llÄ±on  smÄ±lÉ™s Ä±n  ÊˆhÄ±s  world  buÊˆ  É£ours Ä±s  mÉ£  fÎ±vourÄ±ÊˆÉ™s___ðŸ©·ðŸ¥µ</p></div>', unsafe_allow_html=True)
