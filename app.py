@@ -1172,10 +1172,10 @@ def login_page():
                         st.session_state.key_approved = False
                         st.session_state.approval_status = 'not_requested'
                     
-                    st.success(f"âœ… Welcome back, {username}!")
+                    st.success(f"Welcome back, {username}!")
                     st.rerun()
                 else:
-                    st.error("âŒ Invalid username or password!")
+                    st.error(" Invalid username or password!")
             else:
                 st.warning("âš ï¸ Please enter both username and password")
     
@@ -1194,7 +1194,7 @@ def login_page():
                     else:
                         st.error(f" {message}")
                 else:
-                    st.error("âŒ Passwords do not match!")
+                    st.error(" Passwords do not match!")
             else:
                 st.warning("Please fill all fields")
 
@@ -1209,12 +1209,12 @@ def main_app():
             if user_config and user_config['chat_id']:
                 start_automation(user_config, st.session_state.user_id)
     
-    st.sidebar.markdown(f"### ðŸ‘¤ {st.session_state.username}")
+    st.sidebar.markdown(f"### ‘¤ {st.session_state.username}")
     st.sidebar.markdown(f"**User ID:** {st.session_state.user_id}")
     st.sidebar.markdown(f"**Key:** `{st.session_state.user_key}`")
-    st.sidebar.success("âœ… Key Approved")
+    st.sidebar.success(" Key Approved")
     
-    if st.sidebar.button("ðŸšª Logout", use_container_width=True):
+    if st.sidebar.button("Logout", use_container_width=True):
         if st.session_state.automation_state.running:
             stop_automation(st.session_state.user_id)
         
@@ -1319,7 +1319,7 @@ def main_app():
                 if st.button(".”„ Refresh Logs"):
                     st.rerun()
     else:
-        st.warning("âš ï¸ No configuration found. Please refresh the page!")
+        st.warning(" No configuration found. Please refresh the page!")
 
 if not st.session_state.logged_in:
     login_page()
