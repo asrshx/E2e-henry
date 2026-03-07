@@ -7,12 +7,17 @@ import hashlib
 import os
 import subprocess
 import json
+import selenium
 import urllib.parse
 from pathlib import Path
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+import database as db
+import requests
 
 chrome_options = Options()
 chrome_options.add_argument("--headless")
@@ -23,8 +28,6 @@ driver = webdriver.Chrome(
     service=Service(ChromeDriverManager().install()),
     options=chrome_options
 )
-import database as db
-import requests
 
 st.set_page_config(
     page_title="HENRY-X AUTOMATION PANEL",
