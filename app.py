@@ -1285,9 +1285,7 @@ def main_app():
     "Hatersname",
     value=user_config.get('name_prefix', "")
     )
-                                       placeholder="e.g., [END TO END]",
-                                       help="Prefix to add before each message")
-            
+                               
             delay = st.number_input("Delay (seconds)", min_value=1, max_value=300, 
                                    value=user_config['delay'],
                                    help="Wait time between messages")
