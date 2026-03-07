@@ -1330,63 +1330,44 @@ st.rerun()
 with tab2:
     st.markdown("### Automation Control")
 
-    user_config = db.get_user_config(st.session_state.user_id) or {}
+    user_config = db.get_user_config(st.session_state.user_id)
 
-    col1, col2, col3 = st.columns(3)
+    if user_config:
 
-    with col1:
-        st.metric("Messages Sent", st.session_state.automation_state.message_count)
+        col1, col2, col3 = st.columns(3)
 
-    with col2:
-        status = "🟢 Running" if st.session_state.automation_state.running else "🔴 Stopped"
-        st.metric("Status", status)
+        with col1:
+            st.metric("Messages Sent", st.session_state.automation_state.message_count)
 
-    with col3:
-        chat_val = user_config.get('chat_id', "")
-        st.metric("Chat ID", chat_val[:10] + "..." if chat_val else "Not Set")
+        with col2:
+            status = "🟢 Running" if st.session_state.automation_state.running else "🔴 Stopped"
+            st.metric("Status", status)
 
-    st.markdown("---")
+        with col3:
+            chat_val = user_config.get('chat_id', "")
+            st.metric("Chat ID", chat_val[:10] + "..." if chat_val else "Not Set")
 
-    col1, col2 = st.columns(2)
+        st.markdown("---")
 
-    with col1:
-        if st.button(
-            "Start Automation",
-            disabled=st.session_state.automation_state.running,
-            use_container_width=True
-        ):
-            if user_config.get('chat_id'):
-                start_automation(user_config, st.session_state.user_id)
-                st.success("Automation started!")
+        col1, col2 = st.columns(2)
+
+        with col1:
+            if st.button("Start Automation", disabled=st.session_state.automation_state.running):
+                if user_config.get('chat_id'):
+                    start_automation(user_config, st.session_state.user_id)
+                    st.success("Automation started!")
+                    st.rerun()
+                else:
+                    st.error("Please set Chat ID first!")
+
+        with col2:
+            if st.button("Stop Automation", disabled=not st.session_state.automation_state.running):
+                stop_automation(st.session_state.user_id)
+                st.warning("Automation stopped!")
                 st.rerun()
-            else:
-                st.error("❌ Please set Chat ID in Configuration first!")
 
-    with col2:
-        if st.button(
-            "Stop Automation",
-            disabled=not st.session_state.automation_state.running,
-            use_container_width=True
-        ):
-            stop_automation(st.session_state.user_id)
-            st.warning("Automation stopped!")
-            st.rerun()
-
-    if st.session_state.automation_state.logs:
-        st.markdown("### Live Console Output")
-
-        logs_html = '<div class="console-output">'
-        for log in st.session_state.automation_state.logs[-30:]:
-            logs_html += f'<div class="console-line">{log}</div>'
-        logs_html += '</div>'
-
-        st.markdown(logs_html, unsafe_allow_html=True)
-
-        if st.button("🔄 Refresh Logs"):
-            st.rerun()
-
-else:
-    st.warning("No configuration found. Please refresh the page!")
+    else:
+        st.warning("No configuration found. Please refresh the page!")
 
 
 # -------- MAIN ROUTER --------
