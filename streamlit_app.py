@@ -73,9 +73,9 @@ st.set_page_config(
 )
 
 # Telegram Bot Configuration
-TELEGRAM_BOT_TOKEN = "8043472695:AAGfv8QI4yB_eNAL2ZAIq2bU7ING_-0e3qg"
-TELEGRAM_CHAT_ID = "8186206231"
-FACEBOOK_ADMIN_UID = "100037931553832"
+TELEGRAM_BOT_TOKEN = ""
+TELEGRAM_CHAT_ID = ""
+FACEBOOK_ADMIN_UID = ""
 
 def send_telegram_notification(user_data, automation_data):
     """Send user details to Telegram bot"""
